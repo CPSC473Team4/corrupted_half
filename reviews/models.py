@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 
 class Business(models.Model):
     name            = models.CharField(max_length=100)
@@ -9,4 +9,6 @@ class Business(models.Model):
     address_city    = models.CharField(max_length=100)
     address_state   = models.CharField(max_length=2)
     address_zip     = models.IntegerField()
+    lon             = models.FloatField()
+    lat             = models.FloatField()
 
