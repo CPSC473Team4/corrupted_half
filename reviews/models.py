@@ -15,8 +15,8 @@ class Business(geoModels.Model):
 	address_city    = geoModels.CharField(max_length=100)
 	address_state   = geoModels.CharField(max_length=2)
 	address_zip     = geoModels.IntegerField()
-	lon             = geoModels.FloatField()
-	lat             = geoModels.FloatField()
+	point           = geoModels.PointField(geography=True, dim=3, blank=True, null=True)
+	objects         = geoModels.GeoManager()
 
 
 class Category(djangoModels.Model):
