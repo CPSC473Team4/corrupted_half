@@ -3,10 +3,6 @@
 from django.shortcuts import render
 from django.conf import settings
 
-def starter(request):
+def home(request):
     context = {}
-    return render(request, 'reviews/starter.html', context)
-
-def marketing(request):
-    context = {}
-    return render(request, 'reviews/marketing.html', context)
+    return render(request, 'reviews/index.html', context)
