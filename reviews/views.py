@@ -3,12 +3,24 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.views.generic.base import TemplateView
+from django.http import HttpResponse
+# from django.views.generic.base import View
 
 from django.contrib.auth import authenticate, login
 
 def home(request):
     context = {}
     return render(request, 'reviews/index.html', context)
+
+def user(request):
+    context = {}
+    return render(request, 'reviews/user/view.html', context)
+
+class BusinessView(TemplateView):
+	template_name = "reviews/business/view.html"
+
+	def get(self, request, *args, **kwargs):
+		return HttpResponse('Hello, World!')
 
 def auth(request, action):
 	if request.method == 'POST':
@@ -35,10 +47,3 @@ def auth(request, action):
 			return render(request, 'reviews/auth/login.html', {})
 		else:
 			return render(request, 'reviews/auth/logout.html', {})
-
-
-class AuthLoginView(TemplateView):
-	template_name = 'reviews/index.html'
-
-	def get(self, request, *args, **kwargs):
-		self.render_to_response({})
