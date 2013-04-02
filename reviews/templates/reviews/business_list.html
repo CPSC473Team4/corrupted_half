@@ -1,0 +1,43 @@
+{% extends "reviews/base.html" %}
+
+{% block title %}Businesses{% endblock %}
+
+{% block style_mod %}
+padding-top: 60px;
+padding-bottom: 40px;
+{% endblock %}
+
+{# add this to business cards: http://tympanus.net/codrops/2012/06/18/3d-thumbnail-hover-effects/ #}
+
+{% block content %}
+	<h2>Businesses</h2>
+	<ul>
+		{% for business in object_list %}
+			<li>{{ business.name }}</li>
+		{% endfor %}
+	</ul>
+
+	<div class="pagination">
+		<ul>
+			{% if businesses.has_previous %}
+				<li><a href="?page={{ businesses.previous_page_number }}">«</a></li>
+			{% else %}
+				<li class="disabled"><a href="#">«</a></li>
+			{% endif %}
+
+			{% for page in businesses.paginator.page_range %}
+				{% if page == businesses.number %}
+				<li class="active"><a href="#">{{ page }}</a></li>
+				{% else %}
+				<li><a href="?page={{ page }}">{{ page }}</a>
+				{% endif %}
+			{% endfor %}
+
+			{% if businesses.has_next %}
+				<li><a href="?page={{ businesses.next_page_number }}">»</a></li>
+			{% else %}
+				<li class="disabled"><a href="#">»</a></li>
+			{% endif %}
+		</ul>
+	</div>
+{% endblock %}

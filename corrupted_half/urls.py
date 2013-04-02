@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
-from reviews.views import BusinessView
+from reviews.views import BusinessListView
+
+from reviews.models import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -15,7 +17,7 @@ urlpatterns = patterns('',
 	url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
 	url(r'^accounts/user/$', 'reviews.views.user', {}, name='view_user'),
 
-	url(r'^businesses/', BusinessView.as_view())
+	url(r'^businesses/$', BusinessListView.as_view()),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
