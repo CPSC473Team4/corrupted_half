@@ -6,6 +6,8 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic.edit import CreateView, UpdateView
+from reviews.forms import BusinessForm
 
 from reviews.models import Business
 
@@ -43,6 +45,22 @@ class BusinessListView(ListView):
 
 		context['businesses'] = businesses
 		return context
+
+class BusinessCreate(CreateView):
+	form_class = BusinessForm
+	model = Business
+
+	def form_valid(self, form):
+		form.instance.user = self.request.user
+		return super(BusinessCreate, self).form_valid(form)
+
+class BusinessUpdate(UpdateView):
+	form_class = BusinessForm
+	model = Business
+
+	def form_valid(self, form):
+		form.instance.user = self.request.user
+		return super(BusinessUpdate, self).form_valid(form)
 
 def auth(request, action):
 	if request.method == 'POST':
