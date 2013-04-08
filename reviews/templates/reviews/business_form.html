@@ -1,0 +1,22 @@
+{% extends "reviews/base.html" %}
+
+{% block title %}Create/Edit Business{% endblock %}
+
+{% block style_mod %}
+padding-top: 60px;
+padding-bottom: 40px;
+{% endblock %}
+
+{% block content %}
+
+	<form action="" method="post">
+		{% csrf_token %}
+		<fieldset class="fieldset">
+			<legend>Add or Edit Your Business</legend>
+			{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+			{{ form }}
+			<br />
+			<input type="submit" class="btn btn-primary" value="Submit" />
+		</fieldset>
+	</form>
+{% endblock %}
