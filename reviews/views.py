@@ -10,6 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from reviews.forms import BusinessForm
 
 from reviews.models import Business
+from reviews.models import Category
 
 from django.utils import timezone
 # from django.views.generic.base import View
@@ -25,26 +26,31 @@ def user(request):
     return render(request, 'reviews/user/view.html', context)
 
 class BusinessListView(ListView):
-	model = Business
+    model = Business
 
-	def get_context_data(self, **kwargs):
-		business_list = Business.objects.all()
-		paginator = Paginator(business_list, 25)
+    def get_context_data(self, **kwargs):
+        business_list = Business.objects.all()
+        paginator = Paginator(business_list, 25)
 
-		page = self.request.GET.get('page')
-		try:
-			businesses = paginator.page(page)
-		except PageNotAnInteger:
-			# If page is not an integer, deliver first page.
-			businesses = paginator.page(1)
-		except EmptyPage:
-			# If page is out of range (e.g. 9999), deliver last page of results.
-			businesses = paginator.page(paginator.num_pages)
+        page = self.request.GET.get('page')
+        try:
+            businesses = paginator.page(page)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+            businesses = paginator.page(1)
+        except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            businesses = paginator.page(paginator.num_pages)
 
-		context = super(BusinessListView, self).get_context_data(**kwargs)
+        context = super(BusinessListView, self).get_context_data(**kwargs)
 
-		context['businesses'] = businesses
-		return context
+        context['businesses'] = businesses
+        return context
+
+def category(request):
+    top_category_list = Category.objects.order_by('name')[:10]
+    context = {'top_category_list': top_category_list}
+    return render(request, 'reviews/templates/reviews/index.html', context)
 
 class BusinessCreate(CreateView):
 	form_class = BusinessForm
@@ -63,27 +69,27 @@ class BusinessUpdate(UpdateView):
 		return super(BusinessUpdate, self).form_valid(form)
 
 def auth(request, action):
-	if request.method == 'POST':
-		if action == 'login':
-			username = request.POST['username']
-			password = request.POST['password']
+    if request.method == 'POST':
+        if action == 'login':
+            username = request.POST['username']
+            password = request.POST['password']
 
-			user = authenticate(username=username, password=password)
+            user = authenticate(username=username, password=password)
 
-			if user is not None:
-				print(user.first_name)
+            if user is not None:
+                print(user.first_name)
 
-				if user.is_active:
-					login(request, user)
-					return redirect('/')
-				else:
-					# Disabled account
-					pass
-			else:
-				# Return an invalid login error message
-				pass
-	else:
-		if action == 'login':
-			return render(request, 'reviews/auth/login.html', {})
-		else:
-			return render(request, 'reviews/auth/logout.html', {})
+                if user.is_active:
+                    login(request, user)
+                    return redirect('/')
+                else:
+                    # Disabled account
+                    pass
+            else:
+                # Return an invalid login error message
+                pass
+    else:
+        if action == 'login':
+            return render(request, 'reviews/auth/login.html', {})
+        else:
+            return render(request, 'reviews/auth/logout.html', {})
