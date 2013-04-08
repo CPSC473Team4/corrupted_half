@@ -21,12 +21,12 @@ urlpatterns = patterns('',
 	url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
 	url(r'^accounts/user/$', 'reviews.views.user', {}, name='view_user'),
 
-	url(r'^businesses/$', BusinessListView.as_view())
+	url(r'^businesses/$', BusinessListView.as_view()),
     url(r'^businesses/(?P<pk>\d+)/$', DetailView.as_view(model=Business), name='business_detail'),
     url(r'^businesses/add/$', login_required(CreateView.as_view(model=Business, form_class=BusinessForm)), name='business_add'),
     url(r'^businesses/(?P<pk>\d+)/edit/$', permission_required('business.can_update')(BusinessUpdate.as_view(model=Business, form_class=BusinessForm)), name='business_update'),
     url(r'^businesses/(?P<pk>\d+)/delete/$', permission_required('business.can_delete')(DeleteView.as_view(model=Business)), name='business_delete'),
-    
+
     url(r'^$', 'reviews.views.category'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
