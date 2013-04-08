@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 	url(r'^accounts/user/$', 'reviews.views.user', {}, name='view_user'),
 
 	url(r'^businesses/$', BusinessListView.as_view()),
+    url(r'^$', 'reviews.views.category'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
