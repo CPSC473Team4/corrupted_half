@@ -8,9 +8,11 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView, UpdateView
 from reviews.forms import BusinessForm
+from reviews.forms import UserCreateForm
 
 from reviews.models import Business
 from reviews.models import Category
+from reviews.models import User
 
 from django.utils import timezone
 from django.views.generic.base import View
@@ -71,9 +73,20 @@ class BusinessCreate(CreateView):
     form_class = BusinessForm
     model = Business
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(BusinessCreate, self).form_valid(form)
+	def form_valid(self, form):
+		form.instance.user = self.request.user
+		return super(BusinessCreate, self).form_valid(form)
+
+##following class is being used to create a the view for creating a new user
+##feel free to fix anything I might have done wrong
+##took the BusinessCreate class, and followed it as a tempalte for UserCreate
+class UserCreate(CreateView):
+	form_class = UserCreateForm
+	model = User
+
+	def form_valid(self, form):
+		form.instance.user = self.request.user
+		return super(UserCreate, self).form_valid(form)
 
 class BusinessUpdate(UpdateView):
     form_class = BusinessForm

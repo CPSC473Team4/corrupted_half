@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from reviews.models import *
-from reviews.forms import BusinessForm
+from reviews.forms import BusinessForm, UserCreateForm
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -23,7 +23,7 @@ urlpatterns = patterns('',
 	url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
 	url(r'^accounts/user/$', 'reviews.views.user', {}, name='view_user'),
     url(r'^accounts/user/add/$', RegisterUser.as_view(), {}, name='register_user'),
-
+	url(r'^accounts/add/$', CreateView.as_view(model=User, form_class=UserCreateForm), name='user_add'),
 
 	url(r'^businesses/$', BusinessListView.as_view()),
     url(r'^businesses/(?P<pk>\d+)/$', DetailView.as_view(model=Business), name='business_detail'),
