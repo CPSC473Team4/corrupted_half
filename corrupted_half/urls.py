@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from reviews.views import BusinessListView, BusinessCreate, BusinessUpdate, RegisterUser
+from reviews.views import BusinessListView, BusinessCreate, BusinessUpdate, RegisterUser, SearchView
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, permission_required
@@ -25,6 +25,8 @@ urlpatterns = patterns('',
 	url(r'^accounts/user/$', 'reviews.views.user', {}, name='view_user'),
     url(r'^accounts/user/add/$', RegisterUser.as_view(), {}, name='register_user'),
 	url(r'^accounts/add/$', CreateView.as_view(model=User, form_class=UserCreateForm), name='user_add'),
+
+    url(r'^search/.*$', SearchView.as_view()),
 
 	url(r'^businesses/$', BusinessListView.as_view()),
     url(r'^businesses/(?P<pk>\d+)/$', DetailView.as_view(model=Business), name='business_detail'),

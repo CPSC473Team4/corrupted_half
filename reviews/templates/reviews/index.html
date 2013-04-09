@@ -19,8 +19,8 @@ padding-bottom: 40px;
   <div class="container">
     <div id="signup" class="span12" style="margin:0 auto;float:none;padding-bottom:60px">
       <h1>Search for businesses...</h1>
-      <form method="post" action="/search" class="navbar-search pull-left">
-        <input type="text" class="input-xxlarge search-query" placeholder="1234 Main St., Fullerton, CA 92835">
+      <form method="get" action="/search" class="navbar-search pull-left">
+        <input type="text" name="s" class="input-xxlarge search-query" placeholder="1234 Main St., Fullerton, CA 92835">
         <input type="submit" class="btn btn-primary" value="Search">
       </form>
     </div>
@@ -29,7 +29,7 @@ padding-bottom: 40px;
 
 
 <div class="tabbable tabs-left">
-  
+
   <ul class="nav nav-tabs" style="padding-top:10px;margin-left:10px;">
     <li class="nav-header">Categories</li>
     <li class="active"><a href="/Restaurant" data-toggle="tab">Restaurants</a></li>
@@ -48,10 +48,10 @@ padding-bottom: 40px;
     <div class="tab-pane active" id="Restaurant">
      {% if top_category_list %}
       <ul>
-       {% for category in top_category_list %} 
-         
+       {% for category in top_category_list %}
+
            <li>{{ category.business}}</li>
-           
+
        {% endfor %}
       </ul>
      {% else %}

@@ -42,6 +42,36 @@ class RegisterUser(View):
                       self.template_name,
                       { 'user_form' : user_form })
 
+class SearchView(ListView):
+    model = Business
+    template_name='reviews/business_list.html'
+
+    def get_context_data(self, **kwargs):
+        if 's' in self.request.GET:
+            search = self.request.GET['s']
+        else:
+            search = ''
+
+        business_list = Business.objects.filter(name__icontains=search)
+        paginator = Paginator(business_list, 25)
+        categories = Category.objects.all()
+
+        page = self.request.GET.get('page')
+        try:
+            businesses = paginator.page(page)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+            businesses = paginator.page(1)
+        except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            businesses = paginator.page(paginator.num_pages)
+
+        context = super(SearchView, self).get_context_data(**kwargs)
+
+        context['businesses'] = businesses
+        context['categories'] = categories
+        return context
+
 class BusinessListView(ListView):
     model = Business
 
