@@ -14,6 +14,20 @@
 	font-family: 'Satisfy',cursive;
 }
 
+#htmltagcloud {
+	line-height: 2.4em;
+	word-spacing: normal;
+	letter-spacing: normal;
+	text-decoration: none;
+	text-transform: none;
+	text-align: justify;
+	text-indent: 0ex;
+	background-color: #fff;
+	margin: 0 0 0 0;
+	border: 2px dotted #ddd;
+	padding: 2em;
+}
+
 @media(max-width: 480px) {
 	#splash h1 {
 		font-size: 48px;

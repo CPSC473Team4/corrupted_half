@@ -8,15 +8,21 @@ padding-bottom: 40px;
 {% endblock %}
 
 {% block content %}
-
-	<form action="" method="post">
-		{% csrf_token %}
-		<fieldset class="fieldset">
-			<legend>Add or Edit Your Business</legend>
-			{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-			{{ form }}
-			<br />
-			<input type="submit" class="btn btn-primary" value="Submit" />
-		</fieldset>
-	</form>
+<div class="container">
+    <div class="row">
+        <div class="span4 offset4">
+          <div class="well">
+			<form action="" method="post">
+				{% csrf_token %}
+				<fieldset class="fieldset">
+					<legend>Add or Edit Your Business</legend>
+					{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+					{{ form }}
+					<br />
+					<input type="submit" class="btn btn-primary" value="Submit" />
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}

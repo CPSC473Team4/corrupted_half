@@ -1,5 +1,6 @@
 #App specific ignores
 corrupted_half.db
+reviews/media/*
 
 # pycharm
 .idea

@@ -52,12 +52,12 @@
               <li class="active"><a href="#">Home</a></li>
               {% block top_nav_buttons %}
 
-              {% if logged_in %}
+              {% if user.is_authenticated %}
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Businesses <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Create</a></li>
-                  <li><a href="#">Show</a></li>
+                  <li><a href="/businesses/add">Create</a></li>
+                  <li><a href="/businesses/list">Show</a></li>
                 </ul>
               </li>
               {% endif %}
@@ -106,7 +106,7 @@
         </div>
       </div>
     </div>
-    
+
     {% block content %}
 
     {% endblock %}
