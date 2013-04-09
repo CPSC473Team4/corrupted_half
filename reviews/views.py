@@ -13,7 +13,7 @@ from reviews.models import Business
 from reviews.models import Category
 
 from django.utils import timezone
-# from django.views.generic.base import View
+from django.views.generic.base import View
 
 from django.contrib.auth import authenticate, login
 
@@ -24,6 +24,21 @@ def home(request):
 def user(request):
     context = {}
     return render(request, 'reviews/user/view.html', context)
+
+class RegisterUser(View):
+    def post(self, request, *args, **kwargs):
+        user_form = UserCreateForm(request.POST)
+        if user_form.is_valid():
+            username = user_form.clean_username()
+            password = user_form.clean_password2()
+            user_form.save()
+            user = authenticate(username=username,
+                                password=password)
+            login(request, user)
+            return redirect("somewhere")
+        return render(request,
+                      self.template_name,
+                      { 'user_form' : user_form })
 
 class BusinessListView(ListView):
     model = Business
@@ -53,20 +68,20 @@ def category(request):
     return render(request, 'reviews/templates/reviews/index.html', context)
 
 class BusinessCreate(CreateView):
-	form_class = BusinessForm
-	model = Business
+    form_class = BusinessForm
+    model = Business
 
-	def form_valid(self, form):
-		form.instance.user = self.request.user
-		return super(BusinessCreate, self).form_valid(form)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(BusinessCreate, self).form_valid(form)
 
 class BusinessUpdate(UpdateView):
-	form_class = BusinessForm
-	model = Business
+    form_class = BusinessForm
+    model = Business
 
-	def form_valid(self, form):
-		form.instance.user = self.request.user
-		return super(BusinessUpdate, self).form_valid(form)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(BusinessUpdate, self).form_valid(form)
 
 def auth(request, action):
     if request.method == 'POST':
