@@ -48,6 +48,7 @@ class BusinessListView(ListView):
     def get_context_data(self, **kwargs):
         business_list = Business.objects.all()
         paginator = Paginator(business_list, 25)
+        categories = Category.objects.all()
 
         page = self.request.GET.get('page')
         try:
@@ -62,6 +63,7 @@ class BusinessListView(ListView):
         context = super(BusinessListView, self).get_context_data(**kwargs)
 
         context['businesses'] = businesses
+        context['categories'] = categories
         return context
 
 def category(request):
@@ -87,6 +89,8 @@ class UserCreate(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(UserCreate, self).form_valid(form)
+
+
 
 class BusinessUpdate(UpdateView):
     form_class = BusinessForm

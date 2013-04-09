@@ -5,6 +5,13 @@ from django.contrib.auth.models import User
 # Import user model for relationships
 # from django.contrib.auth.models import User
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
+
 class Business(models.Model):
     user            = models.ForeignKey(User)
     name            = models.CharField(max_length=100)
@@ -15,6 +22,7 @@ class Business(models.Model):
     address_city    = models.CharField(max_length=100)
     address_state   = models.CharField(max_length=2)
     address_zip     = models.IntegerField()
+    category        = models.ManyToManyField(Category)
 
     def __unicode__(self):
         return self.name
@@ -30,12 +38,3 @@ class Review(models.Model):
 
     def __unicode__(self):
         return self.subject
-
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-    business = models.ManyToManyField(Business)
-
-    def __unicode__(self):
-        return self.name
-
-
