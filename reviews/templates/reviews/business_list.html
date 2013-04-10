@@ -16,7 +16,7 @@ padding-bottom: 40px;
 
     <div class="container">
         {% for category in categories %}
-        <span class="label label-info"><a href="{% querystring "category"=category.slug %}">{{ category.name }}</a></span>
+        <span class="label {% if category.slug == selected_category %}label-info{% endif %}"><a href="{% querystring "category"=category.slug %}">{{ category.name }}</a></span>
         {% endfor %}
 
         <h2>Businesses</h2>
@@ -28,7 +28,7 @@ padding-bottom: 40px;
 
                     <div class="view-back">
                         <span data-icon="&#9733;">566</span>
-                        <a href="http://www.flickr.com/photos/ag2r/5439506585/in/photostream">→</a>
+                        <a href="{% url 'business_detail' business.id %}">→</a>
                     </div>
 
                     {% thumbnail business.photo "300x200" crop="center" as im %}

@@ -54,7 +54,7 @@ class SearchView(ListView):
         if category is '':
             business_list = Business.objects.filter(name__icontains=search)
         else:
-            business_list = Business.objects.filter(name__icontains=search, category=category)
+            business_list = Business.objects.filter(name__icontains=search, category__slug=category)
 
         paginator = Paginator(business_list, 25)
         categories = Category.objects.all()
