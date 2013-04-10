@@ -117,6 +117,10 @@ class BusinessCreate(CreateView):
         business.save()
         return super(BusinessCreate, self).form_valid(form)
 
+class BusinessUpdate(UpdateView):
+    form_class = BusinessForm
+    model = Business
+
 ##following class is being used to create a the view for creating a new user
 ##feel free to fix anything I might have done wrong
 ##took the BusinessCreate class, and followed it as a tempalte for UserCreate
@@ -127,16 +131,6 @@ class UserCreate(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(UserCreate, self).form_valid(form)
-
-
-
-class BusinessUpdate(UpdateView):
-    form_class = BusinessForm
-    model = Business
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(BusinessUpdate, self).form_valid(form)
 
 def auth(request, action):
     if request.method == 'POST':

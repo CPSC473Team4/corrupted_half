@@ -13,7 +13,6 @@ class BusinessForm(forms.ModelForm):
         def __init__(self, *args, **kwargs):
             self.helper = FormHelper()
             self.helper.method = 'post'
-            self.helper.form_action = 'business_add'
             self.helper.html5_required = True
 
             self.helper.layout = Layout(
