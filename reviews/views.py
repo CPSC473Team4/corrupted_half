@@ -21,10 +21,10 @@ from django.views.generic.base import View
 from django.contrib.auth import authenticate, login
 
 def home(request):
-    
+
     business_list = Business.objects.order_by('name')[:6]
-    
-    return render(request, 'reviews/index.html', {'business_list': business_list})
+
+    return render(request, 'reviews/index.html', {'business_objects': business_list})
 
 def user(request):
     context = {}
@@ -100,8 +100,9 @@ class BusinessListView(ListView):
 
         context = super(BusinessListView, self).get_context_data(**kwargs)
 
-        context['businesses'] = businesses
-        context['categories'] = categories
+        context['businesses']       = businesses
+        context['business_objects'] = businesses.object_list
+        context['categories']       = categories
         return context
 
 class BusinessDetail(DetailView)

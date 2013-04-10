@@ -28,31 +28,9 @@ padding-bottom: 40px;
   </div>
 </header>
 
-
-<ul class="thumbnails">
-  {% for business in business_list %}
-  <li class="span4" >
-    
-      <div class="view">
-        <div class="view-back">
-          <span data-icon="&#9733;">566</span>
-          <a href="{% url 'business_detail' business.id %}">→</a>
-        </div>
-
-        {% thumbnail business.photo "300x200" crop="center" as im %}
-        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-        {% endthumbnail %}
-      </div>
-      
-      <div class="caption">
-          <h3>{{business.name}}</h3>
-          
-          <p align="center"><a href="{% url 'business_detail' business.id %}" class="btn btn-primary btn-block">View more</a></p>
-      </div>
-    </div>
-  </li>
-  {% endfor %}
-</ul>
+<div class="container">
+    {% include 'reviews/business_list.inc.html' %}
+</div>
 
 
 <hr>
