@@ -4,10 +4,11 @@ from reviews.models import *
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
 
+# Needs to set form enctype="multipart/form-data" and assign user_id
 class BusinessForm(forms.ModelForm):
 	class Meta:
 		model = Business
-		exclude = ('user',)
+		exclude = ('user', 'address_lat', 'address_lon')
 
 class UserCreateForm(UserCreationForm):
     email = forms.EmailField(required=True)

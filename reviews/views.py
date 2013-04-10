@@ -113,6 +113,9 @@ class BusinessCreate(CreateView):
         form.instance.user = self.request.user
         return super(BusinessCreate, self).form_valid(form)
 
+    def post(self, request, *args, **kwargs):
+        print "hello"
+
 ##following class is being used to create a the view for creating a new user
 ##feel free to fix anything I might have done wrong
 ##took the BusinessCreate class, and followed it as a tempalte for UserCreate
