@@ -1,3 +1,11 @@
+body {
+    background: #ddd url(../img/bg.jpg) repeat top left;
+}
+
+.pagination ul {
+    background-color: #fff;
+}
+
 #splash {
     margin:0;
     padding-top:100px;
@@ -41,6 +49,21 @@ span a {
 span a:hover {
     color: #fff;
     text-decoration: none;
+}
+
+.business_name {
+    position:absolute;
+    color: #fff;
+    margin-bottom:-10px;
+    line-height:20px;
+    z-index:101;
+    padding:5px 0 0 5px;
+    font-family:'Helvetica Neue';
+    font-size:20px;
+    font-weight:100;
+    width:295px;
+
+
 }
 
 /************************************

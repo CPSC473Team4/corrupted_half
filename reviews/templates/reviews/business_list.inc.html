@@ -1,0 +1,21 @@
+{% load thumbnail %}
+
+<div class="row-fluid">
+    <div id="grid">
+
+        {% for business in business_objects %}
+        <div class="view">
+            <div class="business_name">{{ business.name }}</div>
+            <div class="view-back">
+                <span data-icon="&#9733;">{{ business.get_average_rating }}</span>
+                <a href="{% url 'business_detail' business.id %}">→</a>
+            </div>
+
+            {% thumbnail business.photo "300x200" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %}
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
