@@ -47,12 +47,15 @@ class SearchView(ListView):
     template_name='reviews/business_list.html'
 
     def get_context_data(self, **kwargs):
-        if 's' in self.request.GET:
-            search = self.request.GET['s']
-        else:
-            search = ''
 
-        business_list = Business.objects.filter(name__icontains=search)
+        search = self.request.GET['s'] if 's' in self.request.GET else ''
+        category = self.request.GET['category'] if 'category' in self.request.GET else ''
+
+        if category is '':
+            business_list = Business.objects.filter(name__icontains=search)
+        else:
+            business_list = Business.objects.filter(name__icontains=search, category=category)
+
         paginator = Paginator(business_list, 25)
         categories = Category.objects.all()
 
@@ -70,6 +73,7 @@ class SearchView(ListView):
 
         context['businesses'] = businesses
         context['categories'] = categories
+        context['selected_category'] = category
         return context
 
 class BusinessListView(ListView):
