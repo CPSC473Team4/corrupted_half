@@ -20,8 +20,10 @@ from django.views.generic.base import View
 from django.contrib.auth import authenticate, login
 
 def home(request):
-    context = {}
-    return render(request, 'reviews/index.html', context)
+    
+    business_list = Business.objects.order_by('name')[:6]
+    
+    return render(request, 'reviews/index.html', {'business_list': business_list})
 
 def user(request):
     context = {}
@@ -100,10 +102,7 @@ class BusinessListView(ListView):
         context['categories'] = categories
         return context
 
-def category(request):
-    top_category_list = Category.objects.order_by('name')[:10]
-    context = {'top_category_list': top_category_list}
-    return render(request, 'reviews/templates/reviews/index.html', context)
+
 
 class BusinessCreate(CreateView):
     form_class = BusinessForm
