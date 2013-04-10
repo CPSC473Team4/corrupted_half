@@ -1,5 +1,6 @@
 {% extends "reviews/base.html" %}
 {% load static %}
+{% load querystring %}
 {% load thumbnail %}
 
 {% block title %}Businesses{% endblock %}
@@ -20,7 +21,7 @@ padding-bottom: 40px;
 
     <div class="container">
         {% for category in categories %}
-        <span class="label label-info"><a href="{{ request.build_absolute_uri }}&amp;category={{ category.slug }}">{{ category.name }}</a></span>
+        <span class="label label-info"><a href="{% querystring "category"=category.slug %}">{{ category.name }}</a></span>
         {% endfor %}
 
         <h2>Businesses</h2>
