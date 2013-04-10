@@ -83,7 +83,7 @@ class BusinessListView(ListView):
     model = Business
 
     def get_context_data(self, **kwargs):
-        business_list = Business.objects.all()
+        business_list = Business.objects.filter(user__id=self.request.user.id)
         paginator = Paginator(business_list, 25)
         categories = Category.objects.all()
 
