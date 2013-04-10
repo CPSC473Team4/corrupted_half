@@ -27,7 +27,7 @@ class UserCreateForm(UserCreationForm):
                 'email',
                 'first_name',
                 'last_name',
-                'password',
+                'password1',
                 'password2',
             ),
             ButtonHolder(
