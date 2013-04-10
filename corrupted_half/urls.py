@@ -26,11 +26,11 @@ urlpatterns = patterns('',
     url(r'^accounts/user/add/$', RegisterUser.as_view(), {}, name='register_user'),
 	url(r'^accounts/add/$', CreateView.as_view(model=User, form_class=UserCreateForm), name='user_add'),
 
-    url(r'^search/.*$', SearchView.as_view()),
+    url(r'^search/.*$', SearchView.as_view(), name='search'),
 
 	url(r'^businesses/$', BusinessListView.as_view()),
     url(r'^businesses/(?P<pk>\d+)/$', DetailView.as_view(model=Business), name='business_detail'),
-    url(r'^businesses/add/$', login_required(CreateView.as_view(model=Business, form_class=BusinessForm)), name='business_add'),
+    url(r'^businesses/add/$', login_required(BusinessCreate.as_view()), name='business_add'),
     url(r'^businesses/(?P<pk>\d+)/edit/$', permission_required('business.can_update')(BusinessUpdate.as_view(model=Business, form_class=BusinessForm)), name='business_update'),
     url(r'^businesses/(?P<pk>\d+)/delete/$', permission_required('business.can_delete')(DeleteView.as_view(model=Business)), name='business_delete'),
 

@@ -73,9 +73,10 @@ class SearchView(ListView):
 
         context = super(SearchView, self).get_context_data(**kwargs)
 
-        context['businesses'] = businesses
-        context['categories'] = categories
+        context['businesses']        = businesses
+        context['categories']        = categories
         context['selected_category'] = category
+        context['search_value']      = search
         return context
 
 class BusinessListView(ListView):
@@ -104,13 +105,20 @@ class BusinessListView(ListView):
 
 
 
+
 class BusinessCreate(CreateView):
-    form_class = BusinessForm
     model = Business
+    form_class = BusinessForm
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        business = form.save(commit=False)
+        business.user = self.request.user
+        business.save()
         return super(BusinessCreate, self).form_valid(form)
+
+class BusinessUpdate(UpdateView):
+    form_class = BusinessForm
+    model = Business
 
 ##following class is being used to create a the view for creating a new user
 ##feel free to fix anything I might have done wrong
@@ -122,16 +130,6 @@ class UserCreate(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(UserCreate, self).form_valid(form)
-
-
-
-class BusinessUpdate(UpdateView):
-    form_class = BusinessForm
-    model = Business
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(BusinessUpdate, self).form_valid(form)
 
 def auth(request, action):
     if request.method == 'POST':

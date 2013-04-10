@@ -23,6 +23,8 @@ class Business(models.Model):
     address_city    = models.CharField(max_length=100)
     address_state   = models.CharField(max_length=2)
     address_zip     = models.IntegerField()
+    address_lat     = models.DecimalField(max_digits=11, decimal_places=6, null=True)
+    address_lon     = models.DecimalField(max_digits=11, decimal_places=6, null=True)
     category        = models.ManyToManyField(Category)
     photo           = ImageField(upload_to='photos/%Y/%m')
 
