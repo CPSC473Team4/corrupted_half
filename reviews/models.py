@@ -33,7 +33,17 @@ class Business(models.Model):
 
     def get_absolute_url(self):
         return reverse('business_detail', kwargs={'pk': self.pk})
-
+    
+    def get_avg_rating(self):
+        reviews = Review.objects.filter(business__pk= self.pk)
+        get_reviews_count = count(reviews)
+        for review in reviews:
+            total_rating += review.rating
+            
+        avg_rating = total_rating / get_reviews_count
+        return avg_rating
+        
+        
 class Review(models.Model):
     business        = models.ForeignKey('Business')
     rating          = models.IntegerField()

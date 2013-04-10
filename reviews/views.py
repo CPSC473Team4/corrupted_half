@@ -13,6 +13,7 @@ from reviews.forms import UserCreateForm
 from reviews.models import Business
 from reviews.models import Category
 from reviews.models import User
+from reviews.models import Review
 
 from django.utils import timezone
 from django.views.generic.base import View
@@ -103,7 +104,17 @@ class BusinessListView(ListView):
         context['categories'] = categories
         return context
 
-
+class BusinessDetail(DetailView)
+    
+    form_class = ReviewForm
+    
+    def get_context_data(self, **kwargs):
+        context = super(BusinessDetail, self).get_context_data(**kwargs)
+        context['businesses'] = Business.objects.all()
+        context['reviews'] = Review.objects.all()
+        context['avg_rating'] = Business.get_avg_rating()
+        return context
+    
 
 
 class BusinessCreate(CreateView):
