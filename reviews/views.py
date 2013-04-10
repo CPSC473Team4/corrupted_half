@@ -71,9 +71,10 @@ class SearchView(ListView):
 
         context = super(SearchView, self).get_context_data(**kwargs)
 
-        context['businesses'] = businesses
-        context['categories'] = categories
+        context['businesses']        = businesses
+        context['categories']        = categories
         context['selected_category'] = category
+        context['search_value']      = search
         return context
 
 class BusinessListView(ListView):
@@ -105,16 +106,16 @@ def category(request):
     context = {'top_category_list': top_category_list}
     return render(request, 'reviews/templates/reviews/index.html', context)
 
+
 class BusinessCreate(CreateView):
-    form_class = BusinessForm
     model = Business
+    form_class = BusinessForm
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        business = form.save(commit=False)
+        business.user = self.request.user
+        business.save()
         return super(BusinessCreate, self).form_valid(form)
-
-    def post(self, request, *args, **kwargs):
-        print "hello"
 
 ##following class is being used to create a the view for creating a new user
 ##feel free to fix anything I might have done wrong
