@@ -19,6 +19,10 @@ padding-bottom: 40px;
 {% block content %}
 
     <div class="container">
+        {% for category in categories %}
+        <span class="label label-info"><a href="{{ request.build_absolute_uri }}&amp;category={{ category.slug }}">{{ category.name }}</a></span>
+        {% endfor %}
+
         <h2>Businesses</h2>
         <div class="row-fluid">
             <div id="grid" class="main">
@@ -30,6 +34,7 @@ padding-bottom: 40px;
                         <span data-icon="&#9733;">566</span>
                         <a href="http://www.flickr.com/photos/ag2r/5439506585/in/photostream">→</a>
                     </div>
+
                     {% thumbnail business.photo "300x200" crop="center" as im %}
                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                     {% endthumbnail %}
