@@ -1,6 +1,13 @@
 {% extends "reviews/base.html" %}
+{% load static %}
+{% load thumbnail %}
 
 {% block title %}Businesses{% endblock %}
+
+{% block css %}
+{{ block.super }}
+<link href="{% static 'css/normalize.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block style_mod %}
 padding-top: 60px;
@@ -13,29 +20,25 @@ padding-bottom: 40px;
 
     <div class="container">
         <h2>Businesses</h2>
-        {% for business in businesses.object_list %}
-
-        {% if forloop.counter0|divisibleby:3 %}
         <div class="row-fluid">
-        {% endif %}
+            <div id="grid" class="main">
 
-        <div id="grid" class="main">
-            <div class="view">
+                {% for business in businesses.object_list %}
+                <div class="view">
 
-                <div class="view-back">
-                    <span data-icon="&#9733;">566</span>
-                    <a href="http://www.flickr.com/photos/ag2r/5439506585/in/photostream">→</a>
+                    <div class="view-back">
+                        <span data-icon="&#9733;">566</span>
+                        <a href="http://www.flickr.com/photos/ag2r/5439506585/in/photostream">→</a>
+                    </div>
+                    {% thumbnail business.photo "300x200" crop="center" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                    {% endthumbnail %}
                 </div>
+                {% endfor %}
 
-                <img src="{{ business.photo.url }}" alt="Test" />
             </div>
         </div>
 
-        {% if forloop.counter0|divisibleby:3 %}
-        </div>
-        {% endif %}
-
-        {% endfor %}
 
         <div class="row-fluid">
             <div class="pagination">

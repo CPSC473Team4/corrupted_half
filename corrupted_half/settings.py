@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     # 'ratings',
     'crispy_forms',
+    'sorl.thumbnail',
     'reviews',
 )
 

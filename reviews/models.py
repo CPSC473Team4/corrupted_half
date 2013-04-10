@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from sorl.thumbnail import ImageField
 
 # Import user model for relationships
 # from django.contrib.auth.models import User
@@ -23,7 +24,7 @@ class Business(models.Model):
     address_state   = models.CharField(max_length=2)
     address_zip     = models.IntegerField()
     category        = models.ManyToManyField(Category)
-    photo           = models.ImageField(upload_to='photos/%Y/%m')
+    photo           = ImageField(upload_to='photos/%Y/%m')
 
     def __unicode__(self):
         return self.name
