@@ -36,7 +36,7 @@ class Business(models.Model):
         return reverse('business_detail', kwargs={'pk': self.pk})
 
     def formatted_phone(self, country=None):
-        phone_number = phonenumbers.parse(self.phone, "US")
+        phone_number = phonenumbers.parse(str(self.phone), "US")
         print phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.NATIONAL)
         return phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.NATIONAL)
 
