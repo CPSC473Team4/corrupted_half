@@ -53,33 +53,43 @@ class SearchView(ListView):
     def get_context_data(self, **kwargs):
 
         search = self.request.GET['s'] if 's' in self.request.GET else ''
+
         category = self.request.GET['category'] if 'category' in self.request.GET else ''
 
-        if category is '':
-            business_list = Business.objects.filter(name__icontains=search)
-        else:
-            business_list = Business.objects.filter(name__icontains=search, category__slug=category)
+        if search:
+            from geopy import geocoders
+            geocoder = geocoders.GoogleV3()
+            place, (latitude, longitude) = geocoder.geocode(search, exactly_one=False)[0]
 
-        paginator = Paginator(business_list, 25)
-        categories = Category.objects.all()
+            businesses = Business.search(latitude=latitude, longitude=longitude, radius=25, category=category)
+            for business in businesses:
+                print business
 
-        page = self.request.GET.get('page')
-        try:
-            businesses = paginator.page(page)
-        except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-            businesses = paginator.page(1)
-        except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-            businesses = paginator.page(paginator.num_pages)
+            businesses_paginated = Paginator(businesses, 24)
+            businesses_paginated._count = len(list(businesses))
 
-        context = super(SearchView, self).get_context_data(**kwargs)
+            page = self.request.GET.get('page')
+            try:
+                businesses_page = businesses_paginated.page(page)
+            except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+                businesses_page = businesses_paginated.page(1)
+            except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+                businesses_page = businesses_paginated.page(businesses_paginated.num_pages)
 
-        context['businesses']        = businesses
-        context['categories']        = categories
-        context['selected_category'] = category
-        context['search_value']      = search
-        return context
+            context = super(SearchView, self).get_context_data(**kwargs)
+
+            context['businesses_page']   = businesses_page
+            context['business_objects']  = businesses_page.object_list
+            context['categories']        = Category.objects.all()
+            context['selected_category'] = category
+            context['search_value']      = search
+
+            print businesses_page
+            print businesses_page.object_list
+
+            return context
 
 class BusinessListView(ListView):
     model = Business
@@ -101,7 +111,7 @@ class BusinessListView(ListView):
 
         context = super(BusinessListView, self).get_context_data(**kwargs)
 
-        context['businesses']       = businesses
+        context['businesses_page']       = businesses
         context['business_objects'] = businesses.object_list
         context['categories']       = categories
         return context

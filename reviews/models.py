@@ -59,6 +59,42 @@ class Business(models.Model):
 
         return total_rating / reviews_count if reviews_count > 0 else 0
 
+    @staticmethod
+    def search(latitude, longitude, radius, category='', max_results=25, use_miles=True):
+
+        distance_unit = 3959 if use_miles else 6371
+
+        from django.db import connection, transaction
+        import math
+
+        cursor = connection.cursor()
+
+        connection.connection.create_function('acos', 1, math.acos)
+        connection.connection.create_function('cos', 1, math.cos)
+        connection.connection.create_function('radians', 1, math.radians)
+        connection.connection.create_function('sin', 1, math.sin)
+
+        sql = """SELECT reviews_business.*, (%s * acos( cos( radians(%s) ) * cos( radians( address_lat ) ) *
+            cos( radians( address_lon ) - radians(%s) ) + sin( radians(%s) ) * sin( radians( address_lat ) ) ) )
+            AS distance FROM reviews_business """
+
+        params = [distance_unit, latitude, longitude, latitude]
+
+        if category:
+            sql += """JOIN reviews_business_category ON reviews_business.id = reviews_business_category.business_id
+                      JOIN reviews_category ON reviews_business_category.category_id = reviews_category.id"""
+
+        sql += " WHERE distance < %s"
+        params.append(int(radius))
+
+        if category:
+            sql += " AND reviews_category.slug = %s"
+            params.append(category)
+
+        sql += " ORDER BY distance;"
+
+        return Business.objects.raw(sql, params)
+
     def save(self, *args, **kwargs):
         try:
             geocoder = geocoders.GoogleV3()

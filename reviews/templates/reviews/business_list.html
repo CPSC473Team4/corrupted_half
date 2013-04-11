@@ -25,15 +25,15 @@ padding-bottom: 40px;
         <div class="row-fluid">
             <div class="pagination">
                 <ul>
-                    {% if businesses.has_previous %}
+                    {% if businesses_page.has_previous %}
                     <li><a href="?page={{ businesses.previous_page_number }}">«</a></li>
                     {% else %}
                     <li class="disabled"><a href="#">«</a></li>
                     {% endif %}
 
-                    {% for page in businesses.paginator.page_range %}
+                    {% for page in businesses_page.paginator.page_range %}
 
-                    {% if page == businesses.number %}
+                    {% if page == businesses_page.number %}
                     <li class="active"><a href="#">{{ page }}</a></li>
                     {% else %}
                     <li><a href="?page={{ page }}">{{ page }}</a></li>
@@ -41,8 +41,8 @@ padding-bottom: 40px;
 
                     {% endfor %}
 
-                    {% if businesses.has_next %}
-                    <li><a href="?page={{ businesses.next_page_number }}">»</a></li>
+                    {% if businesses_page.has_next %}
+                    <li><a href="?page={{ businesses_page.next_page_number }}">»</a></li>
                     {% else %}
                     <li class="disabled"><a href="#">»</a></li>
                     {% endif %}
