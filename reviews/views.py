@@ -132,7 +132,6 @@ class BusinessDetail(DetailView):
 
         business = self.get_object()
         avg_rating = business.get_avg_rating()
-        reviews = Review.objects.filter(business__id=business.id)
 
         context['reviews'] = Review.objects.filter(business__id=business.id)
         context['avg_rating'] = avg_rating

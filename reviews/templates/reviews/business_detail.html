@@ -1,5 +1,7 @@
 {% extends "reviews/base.html" %}
 {% load crispy_forms_tags %}
+{% load thumbnail %}
+{% load staticfiles %}
 
 {% block title %}Businesses{% endblock %}
 {% load querystring %}
@@ -9,22 +11,56 @@ padding-top: 60px;
 padding-bottom: 40px;
 {% endblock %}
 
+{% block header_js %}
+{{ block.super }}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
+
 {# add this to business cards: http://tympanus.net/codrops/2012/06/18/3d-thumbnail-hover-effects/ #}
 
 {% block content %}
-	<h2>{{ business.name }}</h2>
-
-	<p>
-		<address>
-			{{ business.address_street1 }}
-			{% if not business.address_street2 == "" %}
-			<br />
-			{{ business.address_street2 }}
-			{% endif %}
-			<br />
-			{{ business.address_city }}, {{ business.address_state }} {{ business.address_zip }}
-		</address>
-	</p>
-
-	{% crispy reviewform %}
+	<div class="container">
+		<div class="row-fluid">
+			<div class="span4 business-main-photo">
+				{% thumbnail business.photo "400x300" crop="center" as im %}
+	            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+	            {% endthumbnail %}
+			</div>
+			<div class="span8">
+				<h1>{{ business.name }}</h1>
+				{% for category in business.category.all %}
+				<span class="label label-info">{{ category.name }}</span>
+				{% endfor %}
+				<p>
+					<address>
+						{{ business.address_street1 }}
+						{% if not business.address_street2 == "" %}
+						<br />
+						{{ business.address_street2 }}
+						{% endif %}
+						<br />
+						{{ business.address_city }}, {{ business.address_state }} {{ business.address_zip }}
+					</address>
+				</p>
+				<p><i class="icon icon-bullhorn"></i> {{ business.formatted_phone }}</p>
+			</div>
+		</div>
+		<div class="row-fluid map-review-row">
+			<div id="map-canvas" data-address="{{ business.address_string }}" class="span4">
+				<noscript>
+				    <!-- http://code.google.com/apis/maps/documentation/staticmaps/ -->
+				    <img src="http://maps.google.com/maps/api/staticmap?center={{ business.address_string|urlencode }}&amp;zoom=16&amp;size=512x512&amp;maptype=roadmap&amp;sensor=false" />
+				</noscript>
+			</div>
+			<div class="span8">
+				<h2>Reviews</h2>
+				{% crispy reviewform %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

@@ -2,6 +2,10 @@ body {
     background: #ddd url(../img/bg.jpg) repeat top left;
 }
 
+h1, h2, h3, h4, h5 {
+    font-weight: 100;
+}
+
 .pagination ul {
     background-color: #fff;
 }
@@ -62,8 +66,22 @@ span a:hover {
     font-size:20px;
     font-weight:100;
     width:295px;
+}
 
+.business-main-photo {
+    border: 8px solid #fff;
+    border-radius: 5px;
 
+    box-shadow: 3px 3px 3px #999;
+}
+
+#map-canvas {
+    height: 250px;
+    border:3px solid #fff;
+}
+
+.map-review-row {
+    margin-top:15px;
 }
 
 /************************************

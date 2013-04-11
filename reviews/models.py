@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from sorl.thumbnail import ImageField
+import phonenumbers
 
 # Import user model for relationships
 # from django.contrib.auth.models import User
@@ -33,6 +34,19 @@ class Business(models.Model):
 
     def get_absolute_url(self):
         return reverse('business_detail', kwargs={'pk': self.pk})
+
+    def formatted_phone(self, country=None):
+        phone_number = phonenumbers.parse(self.phone, "US")
+        print phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.NATIONAL)
+        return phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.NATIONAL)
+
+    def address_string(self):
+        if self.address_street2:
+            street_address = self.address_street1 + ' ' + self.address_street2
+        else:
+            street_address = self.address_street1
+
+        return street_address + ', ' + self.address_city + ', ' + self.address_state + ' ' + str(self.address_zip)
 
     def get_avg_rating(self):
         reviews = Review.objects.filter(business__pk= self.pk)

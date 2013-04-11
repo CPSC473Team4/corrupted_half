@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     # 'ratings',
     'crispy_forms',
     'sorl.thumbnail',
+    'phonenumbers',
     'reviews',
 )
 
