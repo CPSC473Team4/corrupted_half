@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from sorl.thumbnail import ImageField
 import phonenumbers
+from geopy import geocoders
 
 # Import user model for relationships
 # from django.contrib.auth.models import User
@@ -57,6 +58,19 @@ class Business(models.Model):
             total_rating += review.rating
 
         return total_rating / reviews_count if reviews_count > 0 else 0
+
+    def save(self, *args, **kwargs):
+        try:
+            geocoder = geocoders.GoogleV3()
+            place, (lat, lon) = geocoder.geocode(self.address_string(), exactly_one=False)[0]
+
+            # Assign the geocoded latitude & longitude
+            self.address_lat = lat
+            self.address_lon = lon
+        except:
+            pass
+
+        super(Business, self).save(*args, **kwargs)
 
 
 class Review(models.Model):
