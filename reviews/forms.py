@@ -22,6 +22,7 @@ class BusinessForm(forms.ModelForm):
                     'photo',
                     'phone',
                     'website',
+                    'description',
                     'address_street1',
                     'address_street2',
                     'address_city',

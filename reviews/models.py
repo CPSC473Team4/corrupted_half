@@ -20,6 +20,7 @@ class Business(models.Model):
     name            = models.CharField(max_length=100)
     phone           = models.IntegerField()
     website         = models.CharField(max_length=255, null=True, blank=True)
+    description     = models.TextField(null=True, blank=True)
     address_street1 = models.CharField(max_length=100)
     address_street2 = models.CharField(max_length=100, null=True, blank=True)
     address_city    = models.CharField(max_length=100)

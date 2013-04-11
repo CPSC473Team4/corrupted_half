@@ -38,19 +38,34 @@ padding-bottom: 40px;
 	            {% endthumbnail %}
 			</div>
 			<div class="span8 business-detail">
-				<h1 class="business-name">{{ business.name }} <a href="{% url 'business_detail' business.id %}#"><i class="icon-bookmark bookmark"></i></a></h1>
+				<h1 class="business-name">{{ business.name }} <a href="{% url 'business_detail' business.id %}"><i class="icon-bookmark bookmark"></i></a></h1>
 				{% for category in business.category.all %}
 				<span class="label label-info">{{ category.name }}</span>
 				{% endfor %}
 				<div class="detail">
-					<p><img src="{% static 'img/glyphicons_163_iphone.png' %}" alt="Phone" /> {{ business.formatted_phone }}</p>
+					<div class="row-fluid">
+						<div class="span1"><img src="{% static 'img/glyphicons_163_iphone.png' %}" alt="Phone" /></div>
+						<div class="span11">{{ business.formatted_phone }}</div>
+					</div>
 				</div>
 				<div class="detail">
-					<i class="icon-globe"></i> <a href="{{ business.website }}" target="_blank">{{ business.website }}</a>
+					<div class="row-fluid">
+						<div class="span1"><i class="icon-globe"></i></div>
+						<div class="span11"><a href="{{ business.website }}" target="_blank">{{ business.website }}</a></div>
+					</div>
 				</div>
+
+				{% if business.description %}
+				<div class="detail">
+					<div class="row-fluid">
+						<div class="span1"><i class="icon-align-left"></i></div>
+						<div class="span11"><p>{{ business.description }}</p></div>
+					</div>
+				</div>
+				{% endif %}
 			</div>
 		</div>
-		<div class="row-fluid map-review-row">
+		<div class="row-fluid">
 			<div class="span4">
 				<div class="row-fluid">
 					<div id="map-canvas" data-address="{{ business.address_string }}">
