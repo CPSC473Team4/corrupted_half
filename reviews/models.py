@@ -23,8 +23,8 @@ class Business(models.Model):
     address_city    = models.CharField(max_length=100)
     address_state   = models.CharField(max_length=2)
     address_zip     = models.IntegerField()
-    address_lat     = models.DecimalField(max_digits=11, decimal_places=6, null=True)
-    address_lon     = models.DecimalField(max_digits=11, decimal_places=6, null=True)
+    address_lat     = models.DecimalField(max_digits=11, decimal_places=6, null=True, blank=True)
+    address_lon     = models.DecimalField(max_digits=11, decimal_places=6, null=True, blank=True)
     category        = models.ManyToManyField(Category)
     photo           = ImageField(upload_to='photos/%Y/%m')
 
@@ -33,17 +33,18 @@ class Business(models.Model):
 
     def get_absolute_url(self):
         return reverse('business_detail', kwargs={'pk': self.pk})
-    
+
     def get_avg_rating(self):
         reviews = Review.objects.filter(business__pk= self.pk)
-        get_reviews_count = count(reviews)
+        reviews_count = reviews.count()
+
+        total_rating = 0
         for review in reviews:
             total_rating += review.rating
-            
-        avg_rating = total_rating / get_reviews_count
-        return self.avg_rating
-        
-        
+
+        return total_rating / reviews_count if reviews_count > 0 else 0
+
+
 class Review(models.Model):
     business        = models.ForeignKey('Business')
     rating          = models.IntegerField()

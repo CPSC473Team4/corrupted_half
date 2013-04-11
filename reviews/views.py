@@ -107,7 +107,7 @@ class BusinessListView(ListView):
         return context
 
 
-    
+
 
 
 class BusinessCreate(CreateView):
@@ -123,19 +123,22 @@ class BusinessCreate(CreateView):
 class BusinessUpdate(UpdateView):
     form_class = BusinessForm
     model = Business
-    
+
 class BusinessDetail(DetailView):
     model = Business
-    model = Review
-    
+
     def get_context_data(self, **kwargs):
         context = super(BusinessDetail, self).get_context_data(**kwargs)
-        context['businesses'] = Business.objects.all()
-        context['reviews'] = Review.objects.all()
-        context['get_average_rating'] = Business.avg_rating
+
+        business = self.get_object()
+        avg_rating = business.get_avg_rating()
+        reviews = Review.objects.filter(business__id=business.id)
+
+        context['reviews'] = Review.objects.filter(business__id=business.id)
+        context['avg_rating'] = avg_rating
         context['reviewform'] = ReviewForm
         return context
-    
+
 class ReviewCreate(CreateView):
     model = Review
     form_class = ReviewForm
@@ -145,7 +148,7 @@ class ReviewCreate(CreateView):
         review.business = self.request.Business.name
         review.save()
         return super(ReviewCreate, self).form_valid(form)
-        
+
 
 
 ##following class is being used to create a the view for creating a new user

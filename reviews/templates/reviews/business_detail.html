@@ -1,4 +1,5 @@
 {% extends "reviews/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}Businesses{% endblock %}
 {% load querystring %}
@@ -24,4 +25,6 @@ padding-bottom: 40px;
 			{{ business.address_city }}, {{ business.address_state }} {{ business.address_zip }}
 		</address>
 	</p>
+
+	{% crispy reviewform %}
 {% endblock %}
