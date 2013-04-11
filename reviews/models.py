@@ -41,7 +41,7 @@ class Business(models.Model):
             total_rating += review.rating
             
         avg_rating = total_rating / get_reviews_count
-        return avg_rating
+        return self.avg_rating
         
         
 class Review(models.Model):

@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     url(r'^businesses/(?P<pk>\d+)/edit/$', permission_required('business.can_update')(BusinessUpdate.as_view(model=Business, form_class=BusinessForm)), name='business_update'),
     url(r'^businesses/(?P<pk>\d+)/delete/$', permission_required('business.can_delete')(DeleteView.as_view(model=Business)), name='business_delete'),
     
-    #url(r'^businesses/(?P<pk>\d+)/reviews/$', ReviewListView.as_view()),
+
     
 
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.MEDIA_ROOT }),

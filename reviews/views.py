@@ -3,11 +3,12 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView, UpdateView
-from reviews.forms import BusinessForm
+from reviews.forms import BusinessForm, ReviewForm
 from reviews.forms import UserCreateForm
 
 from reviews.models import Business
@@ -105,16 +106,7 @@ class BusinessListView(ListView):
         context['categories']       = categories
         return context
 
-class BusinessDetail(DetailView)
-    
-    form_class = ReviewForm
-    
-    def get_context_data(self, **kwargs):
-        context = super(BusinessDetail, self).get_context_data(**kwargs)
-        context['businesses'] = Business.objects.all()
-        context['reviews'] = Review.objects.all()
-        context['avg_rating'] = Business.get_avg_rating()
-        return context
+
     
 
 
@@ -131,6 +123,30 @@ class BusinessCreate(CreateView):
 class BusinessUpdate(UpdateView):
     form_class = BusinessForm
     model = Business
+    
+class BusinessDetail(DetailView):
+    model = Business
+    model = Review
+    
+    def get_context_data(self, **kwargs):
+        context = super(BusinessDetail, self).get_context_data(**kwargs)
+        context['businesses'] = Business.objects.all()
+        context['reviews'] = Review.objects.all()
+        context['get_average_rating'] = Business.avg_rating
+        context['reviewform'] = ReviewForm
+        return context
+    
+class ReviewCreate(CreateView):
+    model = Review
+    form_class = ReviewForm
+
+    def form_valid(self, form):
+        review = form.save(commit=False)
+        review.business = self.request.Business.name
+        review.save()
+        return super(ReviewCreate, self).form_valid(form)
+        
+
 
 ##following class is being used to create a the view for creating a new user
 ##feel free to fix anything I might have done wrong

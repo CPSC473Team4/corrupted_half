@@ -61,3 +61,25 @@ class UserCreateForm(UserCreationForm):
             )
         )
         super(UserCreateForm, self).__init__(*args, **kwargs)
+        
+class ReviewForm(forms.ModelForm):
+    class Meta:
+		model = Review
+		
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.method = 'post'
+        self.helper.html5_required = True
+        self.helper.layout = Layout(
+            Fieldset(
+                'Review',
+                'subject',
+                'body',
+                'rating',
+            ),
+            ButtonHolder(
+                Submit('submit', 'Submit', css_class='button white')
+            )
+        )
+        super(ReviewForm, self).__init__(*args, **kwargs)
