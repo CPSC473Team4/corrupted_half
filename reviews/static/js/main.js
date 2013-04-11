@@ -1,6 +1,11 @@
 (function() {
     $(function() {
 
+        $('.business-detail .business-name').bind('mouseenter mouseleave', function() {
+            $('.business-detail .bookmark').toggleClass('animated swing');
+        });
+
+
         if ($('#map-canvas').length)
         {
             // Define the address we want to map.

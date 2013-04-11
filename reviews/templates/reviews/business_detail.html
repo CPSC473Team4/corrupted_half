@@ -16,6 +16,12 @@ padding-bottom: 40px;
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 {% endblock %}
 
+{% block css %}
+{{ block.super }}
+<link href="{% static 'css/animate.min.css' %}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+
 {% block js %}
 {{ block.super }}
 <script src="{% static 'js/main.js' %}"></script>
@@ -31,31 +37,49 @@ padding-bottom: 40px;
 	            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 	            {% endthumbnail %}
 			</div>
-			<div class="span8">
-				<h1>{{ business.name }}</h1>
+			<div class="span8 business-detail">
+				<h1 class="business-name">{{ business.name }} <a href="{% url 'business_detail' business.id %}#"><i class="icon-bookmark bookmark"></i></a></h1>
 				{% for category in business.category.all %}
 				<span class="label label-info">{{ category.name }}</span>
 				{% endfor %}
-				<p>
-					<address>
-						{{ business.address_street1 }}
-						{% if not business.address_street2 == "" %}
-						<br />
-						{{ business.address_street2 }}
-						{% endif %}
-						<br />
-						{{ business.address_city }}, {{ business.address_state }} {{ business.address_zip }}
-					</address>
-				</p>
-				<p><img src="{% static 'img/glyphicons_163_iphone.png' %}" alt="Phone" /> {{ business.formatted_phone }}</p>
+				<div class="detail">
+					<p><img src="{% static 'img/glyphicons_163_iphone.png' %}" alt="Phone" /> {{ business.formatted_phone }}</p>
+				</div>
+				<div class="detail">
+					<i class="icon-globe"></i> <a href="{{ business.website }}" target="_blank">{{ business.website }}</a>
+				</div>
 			</div>
 		</div>
 		<div class="row-fluid map-review-row">
-			<div id="map-canvas" data-address="{{ business.address_string }}" class="span4">
-				<noscript>
-				    <!-- http://code.google.com/apis/maps/documentation/staticmaps/ -->
-				    <img src="http://maps.google.com/maps/api/staticmap?center={{ business.address_string|urlencode }}&amp;zoom=16&amp;size=512x512&amp;maptype=roadmap&amp;sensor=false" />
-				</noscript>
+			<div class="span4">
+				<div class="row-fluid">
+					<div id="map-canvas" data-address="{{ business.address_string }}">
+						<noscript>
+						    <!-- http://code.google.com/apis/maps/documentation/staticmaps/ -->
+						    <img src="http://maps.google.com/maps/api/staticmap?center={{ business.address_string|urlencode }}&amp;zoom=16&amp;size=512x512&amp;maptype=roadmap&amp;sensor=false" />
+						</noscript>
+					</div>
+				</div>
+				<div class="row-fluid" style="margin-top:15px">
+					<div class="span1"><i class="icon-map-marker"></i></div>
+					<div class="span11">
+						<address>
+							<a href="http://www.google.com/maps?q={{ business.address_string|urlencode }}" target="_blank">
+								{{ business.address_street1 }}
+								{% if not business.address_street2 == "" %}
+								<br />
+								{{ business.address_street2 }}
+								{% endif %}
+								<br />
+								{{ business.address_city }}, {{ business.address_state }} {{ business.address_zip }}
+							</a>
+						</address>
+					</div>
+				</div>
+
+				<p>
+
+				</p>
 			</div>
 			<div class="span8">
 				<h2>Reviews</h2>

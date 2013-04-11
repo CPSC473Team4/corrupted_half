@@ -84,6 +84,14 @@ span a:hover {
     margin-top:15px;
 }
 
+.business-detail .detail {
+    margin-top:15px;
+}
+
+.business-detail .bookmark {
+    -webkit-animation-duration: 3s;
+    -webkit-animation-iteration-count: 1;
+}
 /************************************
  * 3D Hover Effects
  ************************************/
