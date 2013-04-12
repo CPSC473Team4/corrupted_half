@@ -98,6 +98,19 @@ padding-bottom: 40px;
 			</div>
 			<div class="span8">
 				<h2>Reviews</h2>
+				{% for review in reviews %}
+					<div class="review">
+						<div class="review_subject">{{ review.subject }} <span class="review_rating"> {{ review.rating }} </span></div>
+						{#	{{ review.user }} #}
+						
+						<div class="detail">
+							<div class="row-fluid">
+								<div class="span11"><p>{{ business.description }}</p></div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+
 				{% crispy reviewform %}
 			</div>
 		</div>

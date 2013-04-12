@@ -88,6 +88,21 @@ span a:hover {
     -webkit-animation-duration: 3s;
     -webkit-animation-iteration-count: 1;
 }
+
+.review {
+    width:700px;
+}
+
+.review_subject {
+    font-size:20px;
+    font-weight:100;
+    margin-bottom:10px;
+}
+
+.review_rating {
+    text-align:right;
+}
+
 /************************************
  * 3D Hover Effects
  ************************************/
