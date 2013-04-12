@@ -58,13 +58,16 @@ class SearchView(ListView):
 
         if search:
             from geopy import geocoders
-            geocoder = geocoders.GoogleV3()
-            place, (latitude, longitude) = geocoder.geocode(search, exactly_one=False)[0]
+
+            try:
+                geocoder = geocoders.GoogleV3()
+                place, (latitude, longitude) = geocoder.geocode(search, exactly_one=False)[0]
+            except ValueError as e:
+                context = super(SearchView, self).get_context_data(**kwargs)
+                context['geocoder_error'] = "There was an error geocoding the location provided for the search. Please try again later or try a different search."
+                return context
 
             businesses = Business.search(latitude=latitude, longitude=longitude, radius=25, category=category)
-            for business in businesses:
-                print business
-
             businesses_paginated = Paginator(businesses, 24)
             businesses_paginated._count = len(list(businesses))
 
@@ -85,9 +88,6 @@ class SearchView(ListView):
             context['categories']        = Category.objects.all()
             context['selected_category'] = category
             context['search_value']      = search
-
-            print businesses_page
-            print businesses_page.object_list
 
             return context
 
