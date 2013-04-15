@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 from reviews.models import *
-from reviews.forms import BusinessForm, UserCreateForm
+from reviews.forms import BusinessForm, UserCreateForm, ReviewForm
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -34,8 +34,9 @@ urlpatterns = patterns('',
     url(r'^businesses/(?P<pk>\d+)/edit/$', permission_required('business.can_update')(BusinessUpdate.as_view(model=Business, form_class=BusinessForm)), name='business_update'),
     url(r'^businesses/(?P<pk>\d+)/delete/$', permission_required('business.can_delete')(DeleteView.as_view(model=Business)), name='business_delete'),
     
-    url(r'^businesses/(?P<pk>\d+)/reviews/add/$', login_required(ReviewCreate.as_view()), name='review_add'),
-    
+    # Which one should it be?
+    url(r'^businesses/(?P<pk>\d+)/reviews/add/$', login_required(CreateView.as_view(model=Review, form_class=ReviewCreate)), name='review_add'),
+    #url(r'^businesses/(?P<pk>\d+)/reviews/add/$', login_required(ReviewCreate.as_view()), name='review_add'),
 
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.MEDIA_ROOT }),
 

@@ -71,7 +71,9 @@ class ReviewForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
         self.helper.method = 'post'
+        self.helper.form_action = 'review_add'
         self.helper.html5_required = True
+
         self.helper.layout = Layout(
             Fieldset(
                 'Your Review:',

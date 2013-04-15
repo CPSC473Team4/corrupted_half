@@ -2,10 +2,11 @@
 
 from django.shortcuts import render, redirect
 from django.conf import settings
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView, UpdateView
 from reviews.forms import BusinessForm, ReviewForm
@@ -154,11 +155,11 @@ class ReviewCreate(CreateView):
 
     def form_valid(self, form):
         review = form.save(commit=False)
-        review.business_id = self.request.Business.id
+        review.business_id = self.request.business.id
         review.save()
         return super(ReviewCreate, self).form_valid(form)
 
-
+    
 
 ##following class is being used to create a the view for creating a new user
 ##feel free to fix anything I might have done wrong
