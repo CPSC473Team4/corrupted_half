@@ -142,7 +142,7 @@ class BusinessDetail(DetailView):
         context = super(BusinessDetail, self).get_context_data(**kwargs)
 
         business = self.get_object()
-        avg_rating = business.get_avg_rating()
+        avg_rating = range(business.get_avg_rating())
 
         context['reviews'] = Review.objects.filter(business__id=business.id)
         context['avg_rating'] = avg_rating
@@ -160,8 +160,9 @@ class ReviewCreate(CreateView):
         review = form.save(commit=False)
         review.business_id = self.request.business.id
         review.save()
-        return super(ReviewCreate, self).form_valid(form)
-
+	# return HttpResponseRedirect(reverse('business_detail', args=[review.business_id]))
+        # return super(ReviewCreate, self).form_valid(form)
+	# return redirect("/businesses/%s/" % review.bussiness_id)
 
 
 ##following class is being used to create a the view for creating a new user

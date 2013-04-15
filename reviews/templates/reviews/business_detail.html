@@ -43,6 +43,14 @@ padding-bottom: 40px;
 				<span class="label label-info">{{ category.name }}</span>
 				{% endfor %}
 				<div class="detail">
+						<div class="span1"><i class="icon-star"></i></div>
+						<div class="span11">
+							{% for n in avg_rating %}
+							<i class="icon-star"></i>
+							{% endfor %}
+						</div>
+				</div>
+				<div class="detail">
 					<div class="row-fluid">
 						<div class="span1"><img src="{% static 'img/glyphicons_163_iphone.png' %}" alt="Phone" /></div>
 						<div class="span11">{{ business.formatted_phone }}</div>
@@ -100,11 +108,16 @@ padding-bottom: 40px;
 				<h2>Reviews</h2>
 				{% for review in reviews %}
 					<div class="review">
-						<div class="review_subject">{{ review.subject }} <span class="review_rating"> {{ review.rating }} </span></div>
+						<div class="review_subject">{{ review.subject }}</div>
+						<div class="detail">
+							<div class="span1"><i class="icon-star"></i></div>
+							<div class="span11">{{ review.rating }}</div>
+						</div>
 						{#	{{ review.user }} #}
 						
 						<div class="detail">
 							<div class="row-fluid">
+								<div class="span1"><i class="icon-align-left"></i></div>
 								<div class="span11"><p>{{ business.description }}</p></div>
 							</div>
 						</div>
