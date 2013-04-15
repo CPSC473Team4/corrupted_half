@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from reviews.views import BusinessListView, BusinessCreate, BusinessUpdate, RegisterUser, SearchView, BusinessDetail
+from reviews.views import BusinessListView, BusinessCreate, BusinessUpdate, RegisterUser, SearchView, BusinessDetail, ReviewCreate
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required, permission_required
@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     url(r'^businesses/(?P<pk>\d+)/edit/$', permission_required('business.can_update')(BusinessUpdate.as_view(model=Business, form_class=BusinessForm)), name='business_update'),
     url(r'^businesses/(?P<pk>\d+)/delete/$', permission_required('business.can_delete')(DeleteView.as_view(model=Business)), name='business_delete'),
     
-
+    url(r'^businesses/(?P<pk>\d+)/reviews/add/$', login_required(ReviewCreate.as_view()), name='review_add'),
     
 
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.MEDIA_ROOT }),

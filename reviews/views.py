@@ -154,7 +154,7 @@ class ReviewCreate(CreateView):
 
     def form_valid(self, form):
         review = form.save(commit=False)
-        review.business_id = self.request.business.id
+        review.business_id = self.request.Business.id
         review.save()
         return super(ReviewCreate, self).form_valid(form)
 
