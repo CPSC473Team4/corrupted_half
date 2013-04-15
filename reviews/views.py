@@ -146,7 +146,10 @@ class BusinessDetail(DetailView):
 
         context['reviews'] = Review.objects.filter(business__id=business.id)
         context['avg_rating'] = avg_rating
-        context['reviewform'] = ReviewForm
+
+        review_form = ReviewForm()
+        review_form.helper.form_action = reverse('review_add', args=[business.id])
+        context['reviewform'] = review_form
         return context
 
 class ReviewCreate(CreateView):
@@ -159,7 +162,7 @@ class ReviewCreate(CreateView):
         review.save()
         return super(ReviewCreate, self).form_valid(form)
 
-    
+
 
 ##following class is being used to create a the view for creating a new user
 ##feel free to fix anything I might have done wrong
@@ -181,7 +184,6 @@ def auth(request, action):
             user = authenticate(username=username, password=password)
 
             if user is not None:
-                print(user.first_name)
 
                 if user.is_active:
                     login(request, user)
