@@ -55,7 +55,7 @@ span a:hover {
     text-decoration: none;
 }
 
-.business_name {
+.business-card-name {
     position:absolute;
     color: #fff;
     margin-bottom:-10px;
@@ -66,10 +66,12 @@ span a:hover {
     font-size:20px;
     font-weight:100;
     width:295px;
+
+    text-shadow: 1px 1px 2px #000;
 }
 
-.business-main-photo {
-    border: 8px solid #fff;
+.main-content-border {
+    border: 5px solid #fff;
     border-radius: 5px;
 
     box-shadow: 3px 3px 3px #999;
@@ -97,6 +99,19 @@ span a:hover {
     font-size:20px;
     font-weight:100;
     margin-bottom:10px;
+}
+
+.business-name a {
+    font-size:20px;
+    color: #000;
+}
+
+.business-name a:hover {
+    color:#333;
+}
+
+.businesses-table {
+    background-color:white;
 }
 
 /************************************

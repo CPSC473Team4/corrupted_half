@@ -1,12 +1,19 @@
 {% extends "reviews/base.html" %}
 {% load static %}
 {% load querystring %}
+{% load thumbnail %}
 
 {% block title %}Businesses{% endblock %}
 
 {% block style_mod %}
 padding-top: 60px;
 padding-bottom: 40px;
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'jquery/jquery.raty.min.js' %}"></script>
 {% endblock %}
 
 {# add this to business cards: http://tympanus.net/codrops/2012/06/18/3d-thumbnail-hover-effects/ #}
@@ -21,7 +28,53 @@ padding-bottom: 40px;
         <h2>Businesses</h2>
         {% if not geocoder_error %}
 
-        {% include 'reviews/business_list.inc.html' %}
+        <table class="table table-bordered table-condensed businesses-table">
+            <thead>
+                <tr>
+                    <th><i class="icon-picture"></i></th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th><i class="icon-cog"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if business_objects|length %}
+                    {% for business in business_objects %}
+
+                    <tr>
+                        <td>
+                            {% thumbnail business.photo "50x50" crop="center" as im %}
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                            {% endthumbnail %}
+                        </td>
+                        <td><a href="{% url 'business_update' business.id %}">{{ business.name }}</a></td>
+                        <td>
+                            <address>
+                                <a href="http://www.google.com/maps?q={{ business.address_string|urlencode }}" target="_blank">
+                                    {% autoescape off %}
+                                    {{ business.address_html }}
+                                    {% endautoescape %}
+                                </a>
+                            </address>
+                        </td>
+                        <td>
+                            <button class="btn btn-info btn-action" data-href="{% url 'business_update' business.id %}">
+                                <i class="icon-edit icon-white"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-action" data-href="#delete">
+                                <i class="icon-trash icon-white"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        <button class="btn btn-success btn-action" data-href="{% url 'business_add' %}">
+            <i class="icon-plus-sign icon-white"></i> Add a Business
+        </button>
 
 
         <div class="row-fluid">

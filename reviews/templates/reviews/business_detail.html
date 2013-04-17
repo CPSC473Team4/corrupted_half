@@ -33,10 +33,32 @@ padding-bottom: 40px;
 {% block content %}
 	<div class="container">
 		<div class="row-fluid">
-			<div class="span4 business-main-photo">
+			<div class="span4">
+				<div class="row-fluid main-content-border">
 				{% thumbnail business.photo "400x300" crop="center" as im %}
 	            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 	            {% endthumbnail %}
+	        	</div>
+	            <div class="row-fluid main-content-border" style="margin-top:15px">
+	            	<div id="map-canvas" data-address="{{ business.address_string }}">
+	            		<noscript>
+	            		    <!-- http://code.google.com/apis/maps/documentation/staticmaps/ -->
+	            		    <img src="http://maps.google.com/maps/api/staticmap?center={{ business.address_string|urlencode }}&amp;zoom=16&amp;size=512x512&amp;maptype=roadmap&amp;sensor=false" />
+	            		</noscript>
+	            	</div>
+	            </div>
+	            <div class="row-fluid" style="margin-top:15px">
+					<div class="span1"><i class="icon-map-marker"></i></div>
+					<div class="span11">
+						<address>
+							<a href="http://www.google.com/maps?q={{ business.address_string|urlencode }}" target="_blank">
+								{% autoescape off %}
+                                {{ business.address_html }}
+                                {% endautoescape %}
+							</a>
+						</address>
+					</div>
+				</div>
 			</div>
 			<div class="span8 business-detail">
 				<h1 class="business-name">{{ business.name }} <a href="{% url 'business_detail' business.id %}"><i class="icon-bookmark bookmark"></i></a></h1>
@@ -76,30 +98,7 @@ padding-bottom: 40px;
 		</div>
 		<div class="row-fluid" style="margin-top:15px">
 			<div class="span4">
-				<div class="row-fluid">
-					<div id="map-canvas" data-address="{{ business.address_string }}">
-						<noscript>
-						    <!-- http://code.google.com/apis/maps/documentation/staticmaps/ -->
-						    <img src="http://maps.google.com/maps/api/staticmap?center={{ business.address_string|urlencode }}&amp;zoom=16&amp;size=512x512&amp;maptype=roadmap&amp;sensor=false" />
-						</noscript>
-					</div>
-				</div>
-				<div class="row-fluid" style="margin-top:15px">
-					<div class="span1"><i class="icon-map-marker"></i></div>
-					<div class="span11">
-						<address>
-							<a href="http://www.google.com/maps?q={{ business.address_string|urlencode }}" target="_blank">
-								{{ business.address_street1 }}
-								{% if not business.address_street2 == "" %}
-								<br />
-								{{ business.address_street2 }}
-								{% endif %}
-								<br />
-								{{ business.address_city }}, {{ business.address_state }} {{ business.address_zip }}
-							</a>
-						</address>
-					</div>
-				</div>
+
 
 				<p>
 
