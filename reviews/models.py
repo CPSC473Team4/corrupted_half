@@ -43,12 +43,18 @@ class Business(models.Model):
         return phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.NATIONAL)
 
     def address_string(self):
+        return self.formatted_address(' ')
+
+    def address_html(self):
+        return self.formatted_address('<br />')
+
+    def formatted_address(self, separator):
         if self.address_street2:
             street_address = self.address_street1 + ' ' + self.address_street2
         else:
             street_address = self.address_street1
 
-        return street_address + ', ' + self.address_city + ', ' + self.address_state + ' ' + str(self.address_zip)
+        return street_address + separator + self.address_city + ', ' + self.address_state + ' ' + str(self.address_zip)
 
     def get_avg_rating(self):
         reviews = Review.objects.filter(business__pk= self.pk)
