@@ -5,6 +5,10 @@
             $('.business-detail .bookmark').toggleClass('animated swing');
         });
 
+        $('.btn-action').click(function() {
+          window.location = $(this).attr('data-href');
+        });
+
 
         if ($('#map-canvas').length)
         {
