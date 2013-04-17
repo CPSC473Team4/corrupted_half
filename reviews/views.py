@@ -96,7 +96,13 @@ class BusinessListView(ListView):
     model = Business
 
     def get_context_data(self, **kwargs):
+        category = self.request.GET['category'] if 'category' in self.request.GET else ''
+
         business_list = Business.objects.filter(user__id=self.request.user.id)
+
+        if category:
+            business_list = business_list.filter(category__slug=category)
+
         paginator = Paginator(business_list, 25)
         categories = Category.objects.all()
 
@@ -112,9 +118,10 @@ class BusinessListView(ListView):
 
         context = super(BusinessListView, self).get_context_data(**kwargs)
 
-        context['businesses_page']       = businesses
-        context['business_objects'] = businesses.object_list
-        context['categories']       = categories
+        context['businesses_page']   = businesses
+        context['business_objects']  = businesses.object_list
+        context['categories']        = categories
+        context['selected_category'] = category
         return context
 
 

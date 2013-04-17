@@ -25,10 +25,11 @@ padding-bottom: 40px;
         <span class="label {% if category.slug == selected_category %}label-info{% endif %}"><a href="{% querystring "category"=category.slug %}">{{ category.name }}</a></span>
         {% endfor %}
 
-        <h2>Businesses</h2>
+        <h2>Your Businesses</h2>
         {% if not geocoder_error %}
 
-        <table class="table table-bordered table-condensed businesses-table">
+        {% if business_objects|length %}
+        <table class="table table-bordered businesses-table">
             <thead>
                 <tr>
                     <th><i class="icon-picture"></i></th>
@@ -38,39 +39,44 @@ padding-bottom: 40px;
                 </tr>
             </thead>
             <tbody>
-                {% if business_objects|length %}
-                    {% for business in business_objects %}
+                {% for business in business_objects %}
 
-                    <tr>
-                        <td>
-                            {% thumbnail business.photo "50x50" crop="center" as im %}
-                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                            {% endthumbnail %}
-                        </td>
-                        <td><a href="{% url 'business_update' business.id %}">{{ business.name }}</a></td>
-                        <td>
-                            <address>
-                                <a href="http://www.google.com/maps?q={{ business.address_string|urlencode }}" target="_blank">
-                                    {% autoescape off %}
-                                    {{ business.address_html }}
-                                    {% endautoescape %}
-                                </a>
-                            </address>
-                        </td>
-                        <td>
-                            <button class="btn btn-info btn-action" data-href="{% url 'business_update' business.id %}">
-                                <i class="icon-edit icon-white"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-action" data-href="#delete">
-                                <i class="icon-trash icon-white"></i> Delete
-                            </button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        {% thumbnail business.photo "50x50" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-polaroid" alt="{{ business.name }}" />
+                        {% endthumbnail %}
+                    </td>
+                    <td><a href="{% url 'business_update' business.id %}">{{ business.name }}</a></td>
+                    <td>
+                        <address>
+                            <a href="http://www.google.com/maps?q={{ business.address_string|urlencode }}" target="_blank">
+                                {% autoescape off %}
+                                {{ business.address_html }}
+                                {% endautoescape %}
+                            </a>
+                        </address>
+                    </td>
+                    <td>
+                        <button class="btn btn-info btn-action" data-href="{% url 'business_update' business.id %}">
+                            <i class="icon-edit icon-white"></i> Edit
+                        </button>
+                        <button class="btn btn-danger btn-action" data-href="#delete">
+                            <i class="icon-trash icon-white"></i> Delete
+                        </button>
+                    </td>
+                </tr>
 
-                    {% endfor %}
-                {% endif %}
+                {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <div class="row-fluid">
+            <div class="alert">
+              <strong>No Businesses Found.</strong> Why don't you <a href="{% url 'business_add' %}">create</a> one?
+            </div>
+        </div>
+        {% endif %}
 
         <button class="btn btn-success btn-action" data-href="{% url 'business_add' %}">
             <i class="icon-plus-sign icon-white"></i> Add a Business
