@@ -1,5 +1,8 @@
 # Django settings for corrupted_half project.
 
+import os
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
