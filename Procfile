@@ -1,1 +1,1 @@
-web: gunicorn corrupted_half.wsgi
+web: python corrupted_half/manage.py collectstatic --noinput; gunicorn corrupted_half.wsgi
