@@ -81,7 +81,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 
-    'corrupted_half/re'
+    os.path.join(os.path.abspath(os.path.dirname(__file__) + '/..'), 'static'),
 )
 
 # List of finder classes that know how to find static files in
